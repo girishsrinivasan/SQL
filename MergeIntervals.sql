@@ -1,3 +1,6 @@
+-- Ref: Overlapping ranges with priority
+-- https://stewashton.wordpress.com/2014/03/22/overlapping-ranges-with-priority/
+
 with intervals as (
     -- a values
     select cast( '20100101 08:00' as timestamp) as Start, cast( '20100101 13:00' as timestamp) as End, 'a1' as Value
