@@ -28,7 +28,7 @@ select
 		UserID, 
 		StartTime, 
 		EndTime,
-		sum(TouchesPrevious) over (partition by UserID order by StartTime) grp  
+		sum(TouchesPrevious) over (partition by UserID order by StartTime rows  unbounded preceding ) grp  
 		from IntersectsWithPrevious
 )
 select 
