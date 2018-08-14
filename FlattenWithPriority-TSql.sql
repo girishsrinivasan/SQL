@@ -32,7 +32,6 @@ BaseSegmentCandidates as (
 			lead(EventTIme)over (partition by UserID order by EventTime) EndTime
 	from EventTime
 ),
--- Non overlapping base segments  These segments can only touch each other
 BaseSegment as (
 	select UserID, StartTime, EndTime
 	from BaseSegmentCandidates
