@@ -20,17 +20,17 @@
 		UserID, 
 		StartTime, 
 		EndTime,
-		-- sum(TouchesPrevious) is a running total. Since TouchesPrevious = 1 if it does not touch we end up with the 
-		-- same running totals for rows wich touch each other when ordered by start time (since they have 0 and do not change the running total)
+		-- sum(DoesNotTouchPrevious) is a running total. Since DoesNotTouchPrevious = 0 if it touches previous interval we end up with the 
+		-- same running totals for rows which touch each other when ordered by start time (since they have 0 and do not change the running total)
 		-- This assume that there are no overlaps other than for touching in the base data
-		sum(TouchesPrevious) over (partition by UserID order by StartTime) grp  
+		sum(DoesNotTouchPrevious) over (partition by UserID order by StartTime) grp  
 	from (
 		select 
 		UserID, 
 		StartTime, 
 		EndTime,
-		-- TouchesPrevious is 1 if this interval touches the previous interval
-		case when StartTime = lag(EndTime) over (partition by UserID order by StartTime) then 0 else 1 end  TouchesPrevious
+		-- DoesNotTouchPrevious is 0 if this interval touches the previous interval and 1 otherwise
+		case when StartTime = lag(EndTime) over (partition by UserID order by StartTime) then 0 else 1 end  DoesNotTouchPrevious
 	from BaseData
 	) a
 )
